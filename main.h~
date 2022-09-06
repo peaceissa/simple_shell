@@ -1,0 +1,274 @@
+#ifndef _MAIN_H_
+
+#define _MAIN_H_
+
+
+
+#include <sys/wait.h>
+
+#include <sys/types.h>
+
+#include <stdio.h>
+
+#include <stdlib.h>
+
+#include <string.h>
+
+#include <ctype.h>
+
+#include <unistd.h>
+
+#include <dirent.h>
+
+#include <limits.h>
+
+#include <string.h>
+
+
+
+extern char **environ;
+
+
+
+/* ALIAS */
+
+#include "dict.h"
+
+
+
+typedef dict_t alias_t;
+
+
+
+/* ENV */
+
+#include "dict.h"
+
+#include "string.h"
+
+
+
+typedef dict_t env_t;
+
+
+
+env_t *env_to_dict(char **env);
+
+env_t *_env_to_dict(env_t **tailptr, char **env);
+
+char **dict_to_env(env_t *head);
+
+
+
+/* ERROR */
+
+#include <stdarg.h>
+
+#include "string.h"
+
+
+
+void perrorl(const char *msg, ...);
+
+void perrorl_default(const char *arg0, size_t lineno, const char *msg, ...);
+
+
+
+/* HISTORY */
+
+/**
+
+ * struct history - shell command history
+
+ * @head: a pointer to the head of the history list
+
+ * @filename: the name of the history to file
+
+ * @n: the number of entries in the history list
+
+ */
+
+struct history
+
+{
+  
+  struct list *head;
+  
+  char *filename;
+  
+  size_t n;
+  
+};
+
+
+
+/* LIST */
+
+#include "string.h"
+
+
+
+/**
+
+ * struct list - singly linked list
+
+ * @str: dynamically-allocated string
+
+ * @next: pointer to the next node
+
+ */
+
+struct list
+
+{
+  
+  char *str;
+  
+  struct list *next;
+  
+};
+
+
+
+list_t *str_to_list(const char *str, char delim);
+
+list_t *_str_to_list(list_t **tailptr, const char *str, char delim);
+
+list_t *add_node(list_t **headptr, const char *str);
+
+list_t *add_node_end(list_t **headptr, const char *str);
+
+void free_list(list_t **headptr);
+
+
+
+/* PATH */
+
+#include <sys/stat.h>
+
+#include "info.h"
+
+#include "string.h"
+
+
+
+char *search_path(info_t *info, list_t *path);
+
+
+
+/* TOKENS */
+
+#include "quote.h"
+
+#include "string.h"
+
+
+
+char **tokenize(const char *str);
+
+char **tokenize_noquote(const char *str);
+
+
+
+size_t count_tokens(const char *str);
+
+size_t count_tokens_noquote(const char *str);
+
+
+
+void free_tokens(char ***tokens);
+
+
+
+char **arrdup(char **arr);
+
+
+
+char **arrjoin(char **arr1, char **arr2);
+
+
+
+/* TYPES */
+
+typedef struct builtin builtin_t;
+
+typedef struct cmdlist cmdlist_t;
+
+typedef struct cmdtree cmdtree_t;
+
+typedef struct dict dict_t;
+
+typedef struct history history_t;
+
+typedef struct info info_t;
+
+typedef struct list list_t;
+
+
+
+/*CTYPE */
+
+#include <stdbool.h>
+
+
+
+bool _isalnum(int c);
+
+bool _isalpha(int c);
+
+bool _isdigit(int c);
+
+bool _isident(int c);
+
+bool _isspace(int c);
+
+bool _isquote(int c);
+
+
+
+bool _isnumber(const char *s);
+
+
+
+/* MAIN */
+
+char *show_input(void);
+
+void prompt(void);
+
+char *_strcat(char *src);
+
+int _strlen(char *str);
+
+void place(char *str);
+
+char *findfile(char *command);
+
+char *find_command(char *command);
+
+int compare(char *s1, char *s2);
+
+int _strcmpdir(char *s1, char *s2);
+
+int charput(char c);
+
+void place(char *str);
+
+char *str_concat(char *s1, char *s2);
+
+int lookforslash(char *cmd);
+
+int compareExit(char *s1, char *s2);
+
+int compareEnv(char *s1, char *s2);
+
+void execute_proc(char **cmd);
+
+char **identify_string(char *parameter);
+
+void controlC(int sig);
+
+
+
+#endif
+
