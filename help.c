@@ -29,7 +29,8 @@ for (desc = bp->desc; (len = _strlen(desc)); desc += len + 1)
 {
 write(STDOUT_FILENO, "    ", 4);
 write(STDOUT_FILENO, desc, len);
-write(STDOUT_FILENO, "\n", }
+write(STDOUT_FILENO, "\n", 1);
+}
 info->status = EXIT_SUCCESS;
 }
 args += 1;
