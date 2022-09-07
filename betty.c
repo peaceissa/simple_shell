@@ -2,12 +2,12 @@
 /**
  * main - program to print hello world
  *
- * return - 0 always on success
+ * Return: - (0) Always on success otherwise non-zero value
  */
 
-int main()
+int main(void)
 {
 	printf("Hello World!");
 
-	return 0;
-}	
+	return (0);
+}
